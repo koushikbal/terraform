@@ -1,4 +1,3 @@
-Terraform Configuration
 This Terraform configuration creates a VPC with public and private subnets, internet gateway, VPC endpoints for SSM, EC2, and their respective security groups.
 
 Usage

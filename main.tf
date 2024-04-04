@@ -190,7 +190,7 @@ resource "aws_iam_role_policy_attachment" "terraform_ssm_policy_attachment" {
 
 # Create EC2 instance in a private subnet
 resource "aws_instance" "terraform_example_instance" {
-  ami                    = "ami-05c969369880fa2c2"
+  ami                    = "ami-id"
   instance_type          = "t2.micro"
   subnet_id              = aws_subnet.terraform_private_subnet.id
   security_groups        = [aws_security_group.terraform_ec2_sg.id]

@@ -1,25 +1,40 @@
-This Terraform configuration creates a VPC with public and private subnets, internet gateway, VPC endpoints for SSM, EC2, and their respective security groups.
+# AWS VPC and Private Connectivity Terraform Module
 
-Usage
-Install Terraform (Terraform Installation Guide)
-Configure your AWS credentials (AWS CLI Configuration Guide)
-Initialize Terraform: terraform init 
-Review the Terraform plan: terraform plan 
-Apply the Terraform configuration: terraform apply
-Inputs region: The AWS region where resources will be created. (Default: us-west-1) 
-ami: The AMI ID for the EC2 instance. 
-cidr_block: The CIDR block for the VPC. (Default: 10.0.0.0/16) 
-public_subnet_cidr: The CIDR block for the public subnet. (Default: 10.0.1.0/24) 
-private_subnet_cidr: The CIDR block for the private subnet. (Default: 10.0.2.0/24)
+Terraform configuration for an AWS VPC with public and private subnets, internet access for public workloads, and VPC endpoints that support Systems Manager without requiring public access to private instances.
 
-Outputs 
-vpc_id: The ID of the created VPC. 
-public_subnet_ids: The IDs of the public subnets. 
-private_subnet_ids: The IDs of the private subnets. 
-internet_gateway_id: The ID of the internet gateway. 
-ssm_endpoint_id: The ID of the SSM VPC endpoint. 
-ec2_endpoint_id: The ID of the EC2 VPC endpoint. 
-ssm_messages_endpoint_id: The ID of the SSM Messages VPC endpoint. 
-ec2_messages_endpoint_id: The ID of the EC2 Messages VPC endpoint.
+## Architecture
 
-Adjust the inputs and outputs section according to your specific requirements and configurations.
+- VPC with configurable CIDR range
+- Public and private subnets
+- Internet gateway for public routing
+- EC2 and Systems Manager interface endpoints
+- Security groups for controlled endpoint access
+- Outputs for VPC, subnet, and endpoint identifiers
+
+## Prerequisites
+
+- Terraform 1.5+
+- AWS CLI credentials with permission to manage the declared resources
+- An AWS region and a valid AMI ID for the EC2 resource, if enabled
+
+## Usage
+
+    terraform init
+    terraform fmt -check
+    terraform validate
+    terraform plan -out=tfplan
+    terraform apply tfplan
+
+Destroy only in a disposable environment with terraform destroy.
+
+## Inputs
+
+- region: AWS deployment region; default us-west-1
+- ami: AMI ID used by the EC2 resource; required when enabled
+- cidr_block: VPC CIDR range; default 10.0.0.0/16
+- public_subnet_cidr: public subnet CIDR; default 10.0.1.0/24
+- private_subnet_cidr: private subnet CIDR; default 10.0.2.0/24
+
+## Security guidance
+
+Review the plan before applying, keep state in an encrypted remote backend with locking, avoid hard-coded credentials, and restrict endpoint security groups to required VPC clients.
